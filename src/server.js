@@ -1,28 +1,17 @@
-const http = require('http');
+var express = require('express');
+var app = express();
 const url = require('url');
-const fs = require('fs');
+const myURL = url.parse('https://user: pass@sub.example.com :8080/p/a/t/h?query=string#hash');
 
-const server = http.createServer(function (req, res) {
 
-  	// localhost:9000/demo2.html
-
-  	const urlObject = url.parse(req.url, true);
-  	const fileName = "." + urlObject.pathname;		// 		./demo2.html
-
-  	fs.readFile(fileName, function(err, data) {
-
-  		if (err) {
-  			res.writeHead(404, {'Content-Type': 'text/html'});
-  			return res.end("404 Not Found");
-  		}
-
-  		res.writeHead(200, {'Content-Type': 'text/html'});
-  		res.write(data);
-  		res.end();
-  	});
-
+app.get('/', function (req, res) {
+  res.send(JSON.stringify (myURL, 0,2));
 });
 
-server.listen(9000, () => {
-	console.log('Server is running...');
+app.get('/var', function (req, res) {
+  res.send('Hello Programer!');
+});
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
 });
